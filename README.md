@@ -19,7 +19,7 @@ Other times I use it as a sandbox disconnected from everything else.
 To just sample run it and remove when done (accept the defaults):
 
 ```
-docker run -it --rm rwxrob/base
+docker run -it --rm rwxrob/workspace
 ```
 
 Note for any `docker` work you probably want to `-v
