@@ -1,0 +1,6 @@
+[submodule "dot"]
+	path = dot
+	url = git@github.com:rwxrob/dot.git
+[submodule "fonts"]
+	path = fonts
+	url = git@github.com:rwxrob/fonts.git
