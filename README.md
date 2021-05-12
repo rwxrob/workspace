@@ -1,4 +1,4 @@
-# Base Workspace Docker Container Image
+# Container Workspace Environment for Development, Learning, and Experimentation
 
 ![WIP](https://img.shields.io/badge/status-wip-red)
 
