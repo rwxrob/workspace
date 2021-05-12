@@ -1,7 +1,5 @@
 # Container Workspace Environment for Development, Learning, and Experimentation
 
-![WIP](https://img.shields.io/badge/status-wip-red)
-
 This [GitHub] repo and [Docker] container contain the tools I use in my
 terminal-centric workspace. I use it to get a workspace quickly and to
 store all my custom installation information (latest Go, borderless
