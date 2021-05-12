@@ -1,0 +1,62 @@
+#!/bin/sh
+set -e
+
+# This script is called from the Dockerfile ENTRYPOINT and stored in the
+# root of the resulting workspace container for reference.
+
+if test -e /var/run/been_built; then
+  exec sh -c "su - $(head -1 /var/run/defuser)"
+fi
+
+# ----------------------- get custom user info -----------------------
+
+name="you"
+printf "User Name (%s): " "${name}"
+read -r val
+test -n "${val}" && name="${val}"
+
+id="9001"
+printf "User ID (%s): " "${id}"
+read -r val
+test -n "${val}" && id="${val}"
+
+group="9001"
+printf "User Group (%s): " "${group}"
+read -r val
+test -n "${val}" && group="${val}"
+
+home="/home/you"
+printf "User Home Directory (%s): " "${home}"
+read -r val
+test -n "${val}" && home="${home}"
+
+shell="/bin/bash"
+printf "User Shell (%s): " "${shell}"
+read -r val
+test -n "${val}" && shell="${val}"
+
+# ---------------- attempt to install different shell ----------------
+
+shell_name=${shell##*/}
+if ! type "${shell_name}" >/dev/null; then
+  echo "Attempting to install shell: ${shell_name}"
+  apt install -y "${shell_name}"
+fi
+
+# ------------------------ create a super user -----------------------
+
+groupadd -g "${group}" "${name}"
+useradd -m -s "${shell}" -d "${home}" -u "${id}" -g "${group}" "${name}"
+echo "${name} ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers
+chown -R "${name}:${group}" "${home}"
+
+# ------------------- use host docker installation -------------------
+
+test -S /var/run/docker.sock && chgrp docker /var/run/docker.sock
+sudo usermod -aG docker "${name}"
+
+# -------------------- cache build and exec shell --------------------
+
+touch /var/run/been_built
+echo "${name}" >/var/run/defuser
+exec su - ${name}
