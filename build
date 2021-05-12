@@ -6,4 +6,4 @@ cd ../fonts
 git pull
 cd ..
 docker build -t workspace -t rwxrob/workspace .
-#docker push rwxrob/workspace
+docker push rwxrob/workspace
