@@ -25,7 +25,7 @@ printf "User Group (%s): " "${group}"
 read -r val
 test -n "${val}" && group="${val}"
 
-home="/home/you"
+home="/home/${name}"
 printf "User Home Directory (%s): " "${home}"
 read -r val
 test -n "${val}" && home="${val}"
