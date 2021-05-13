@@ -28,7 +28,7 @@ test -n "${val}" && group="${val}"
 home="/home/you"
 printf "User Home Directory (%s): " "${home}"
 read -r val
-test -n "${val}" && home="${home}"
+test -n "${val}" && home="${val}"
 
 shell="/bin/bash"
 printf "User Shell (%s): " "${shell}"
