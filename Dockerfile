@@ -77,7 +77,7 @@ COPY ./dot/lynx /etc/skel/.config/lynx
 COPY ./dot/gh /etc/skel/.config/gh
 COPY ./dot/git/templates /etc/skel/.git-templates
 COPY ./dot/tmux/tmux.conf /etc/skel/.tmux.conf
-COPY ./dot/tmux/tmux-live.conf /etc/skel/.tmux-live.conf
+COPY ./dot/tmux/live.conf /etc/skel/.tmux-live.conf
 COPY ./fonts/figlet/* /usr/share/figlet/
 
 RUN curl -fLo /etc/skel/.vim/autoload/plug.vim --create-dirs \
