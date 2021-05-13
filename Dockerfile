@@ -1,14 +1,12 @@
 FROM rwxrob/pandoc AS mypandoc
 FROM rwxrob/hyperfine AS myhyperfine
 FROM rwxrob/kubectl AS mykubectl
-#FROM rwxrob/tmux AS mytmux
 
 FROM ubuntu
 
 LABEL MAINTAINER "Rob Muhlestein <rob@rwx.gg>"
 LABEL SOURCE "https://github.com/rwxrob/dot"
 
-#COPY --from=mytmux /usr/local/bin/tmux /usr/bin
 COPY --from=mypandoc /usr/bin/pandoc /usr/bin
 COPY --from=myhyperfine /usr/bin/hyperfine /usr/bin
 COPY --from=mykubectl /usr/bin/kubectl /usr/bin
@@ -79,6 +77,7 @@ COPY ./dot/lynx /etc/skel/.config/lynx
 COPY ./dot/gh /etc/skel/.config/gh
 COPY ./dot/git/templates /etc/skel/.git-templates
 COPY ./dot/tmux/tmux.conf /etc/skel/.tmux.conf
+COPY ./dot/tmux/tmux-live.conf /etc/skel/.tmux-live.conf
 COPY ./fonts/figlet/* /usr/share/figlet/
 
 RUN curl -fLo /etc/skel/.vim/autoload/plug.vim --create-dirs \
