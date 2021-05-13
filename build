@@ -1,9 +1,5 @@
 #!/bin/sh
 set -e
-cd dot
-git pull
-cd ../fonts
-git pull
-cd ..
+git submodule update --recursive --remote
 docker build -t workspace -t rwxrob/workspace .
 docker push rwxrob/workspace

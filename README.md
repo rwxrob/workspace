@@ -16,7 +16,13 @@ Other times I use it as a sandbox disconnected from everything else.
 
 ## Install and Run
 
-To just sample run it and remove when done (accept the defaults):
+To clone and work with the source code:
+
+```
+git clone --recursive git@github.com:rwxrob/workspace.git
+```
+
+To just sample run the image and remove when done (accept the defaults):
 
 ```
 docker run -it --rm rwxrob/workspace
