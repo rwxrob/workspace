@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+red="\e[31m"
+x="\e[0m"
+
 # This script is called from the Dockerfile ENTRYPOINT and stored in the
 # root of the resulting workspace container for reference.
 
@@ -19,6 +22,13 @@ id="1000"
 printf "User ID (%s): " "${id}"
 read -r val
 test -n "${val}" && id="${val}"
+
+if test -S /var/run/docker.sock; then
+  sockid=$(stat --printf "%u\n" /var/run/docker.sock)
+  if test "${id}" != "${sockid}"; then
+    printf "${red}WARNING: /var/run/docker.sock (%s) owner out of sync${x}\n" "${sockid}"
+  fi
+fi
 
 group="1000"
 printf "User Group (%s): " "${group}"
@@ -49,11 +59,6 @@ groupadd -g "${group}" "${name}"
 useradd -m -s "${shell}" -d "${home}" -u "${id}" -g "${group}" "${name}"
 echo "${name} ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers
 chown -R "${name}:${group}" "${home}"
-
-# ------------------- use host docker installation -------------------
-
-test -S /var/run/docker.sock && chgrp docker /var/run/docker.sock
-sudo usermod -aG docker "${name}"
 
 # -------------------- cache build and exec shell --------------------
 
