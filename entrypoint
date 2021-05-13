@@ -15,12 +15,12 @@ printf "User Name (%s): " "${name}"
 read -r val
 test -n "${val}" && name="${val}"
 
-id="9001"
+id="1000"
 printf "User ID (%s): " "${id}"
 read -r val
 test -n "${val}" && id="${val}"
 
-group="9001"
+group="1000"
 printf "User Group (%s): " "${group}"
 read -r val
 test -n "${val}" && group="${val}"
