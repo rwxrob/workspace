@@ -5,47 +5,109 @@ red="\e[31m"
 x="\e[0m"
 
 # This script is called from the Dockerfile ENTRYPOINT and stored in the
-# root of the resulting workspace container for reference.
+# root of the resulting workspace container for reference. If /home has
+# anything in it then use the permissions and ownership information from
+# the first directory found within it for creating a new user on the
+# system looking into the .config/ws/config.yml file within that
+# directory for the user and group name and such. In this way, the ws
+# workspace container managmenet utility can pass information to docker
+# during "run" time for the container keeping the workspace containers
+# themselves as emphermal as needed.
+#
+# In order to encourage users to use workspaces in an ephermal manner
+# a /var/run/been_built is created and checked. When found this means
+# that the user has restarted or reconnected to a previously run
+# container rather than creating a new one and a warning is printed.
 
 if test -e /var/run/been_built; then
+  print "${red}WARNING: Reusing an existing container.${x}"
+  sleep 1
   exec sh -c "su - $(head -1 /var/run/defuser)"
 fi
 
-# ----------------------- get custom user info -----------------------
+prompt_for_user_info() {
 
-name="you"
-printf "User Name (%s): " "${name}"
-read -r val
-test -n "${val}" && name="${val}"
+  name="you"
+  printf "User Name (%s): " "${name}"
+  read -r val
+  test -n "${val}" && name="${val}"
 
-id="1000"
-printf "User ID (%s): " "${id}"
-read -r val
-test -n "${val}" && id="${val}"
+  userid="1000"
+  printf "User ID (%s): " "${userid}"
+  read -r val
+  test -n "${val}" && userid="${val}"
+
+  group="$name"
+  printf "Group Name (%s): " "${group}"
+  read -r val
+  test -n "${val}" && group="${val}"
+
+  groupid="1000"
+  printf "User Group (%s): " "${groupid}"
+  read -r val
+  test -n "${val}" && groupid="${val}"
+
+  home="/home/${name}"
+  printf "User Home Directory (%s): " "${home}"
+  read -r val
+  test -n "${val}" && home="${val}"
+
+  shell="/bin/bash"
+  printf "User Shell (%s): " "${shell}"
+  read -r val
+  test -n "${val}" && shell="${val}"
+
+}
+
+infer_user_info_from_home() {
+
+  userid=$(stat -c "%u" "$home")
+  groupid=$(stat -c "%g" "$home")
+
+  conf="$home/.config/ws/config.yml"
+
+  if test ! -e "$conf"; then
+
+    name="you"
+    printf "User Name (%s): " "${name}"
+    read -r val
+    test -n "${val}" && name="${val}"
+
+    shell="/bin/bash"
+    printf "User Shell (%s): " "${shell}"
+    read -r val
+    test -n "${val}" && shell="${val}"
+
+    group="$name"
+    printf "Group Name (%s): " "${group}"
+    read -r val
+    test -n "${val}" && group="${val}"
+
+  else
+
+    name=$(yq e .user.name "$conf")
+    shell=$(yq e .user.shell "$conf")
+    group=$(yq e .group.name "$conf")
+
+  fi
+
+}
+
+# detect a user home directory mount (if any)
+home=$(find /home -maxdepth 1 -mindepth 1 | head -1)
+
+if test -d "$home"; then
+  infer_user_info_from_home
+else
+  prompt_for_user_info
+fi
 
 if test -S /var/run/docker.sock; then
-  sockid=$(stat --printf "%u\n" /var/run/docker.sock)
-  if test "${id}" != "${sockid}"; then
+  sockid=$(stat -c "%u" /var/run/docker.sock)
+  if test "${userid}" != "${sockid}"; then
     printf "${red}WARNING: /var/run/docker.sock (%s) owner out of sync${x}\n" "${sockid}"
   fi
 fi
-
-group="1000"
-printf "User Group (%s): " "${group}"
-read -r val
-test -n "${val}" && group="${val}"
-
-home="/home/${name}"
-printf "User Home Directory (%s): " "${home}"
-read -r val
-test -n "${val}" && home="${val}"
-
-shell="/bin/bash"
-printf "User Shell (%s): " "${shell}"
-read -r val
-test -n "${val}" && shell="${val}"
-
-# ---------------- attempt to install different shell ----------------
 
 shell_name=${shell##*/}
 if ! type "${shell_name}" >/dev/null; then
@@ -53,15 +115,15 @@ if ! type "${shell_name}" >/dev/null; then
   apt install -y "${shell_name}"
 fi
 
-# ------------------------ create a super user -----------------------
-
-groupadd -g "${group}" "${name}"
-useradd -m -s "${shell}" -d "${home}" -u "${id}" -g "${group}" "${name}"
-echo "${name} ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers
+groupadd -g "${groupid}" "${group}"
+test -d "/home/${name}" || mkdir "/home/${name}"
+rsync -vaz /usr/share/rwxrob/workspace/ "/home/${name}"
+useradd -s "${shell}" -d "${home}" -u "${userid}" -g "${groupid}" "${name}"
+echo "${group} ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers
 chown -R "${name}:${group}" "${home}"
 
 # -------------------- cache build and exec shell --------------------
 
 touch /var/run/been_built
 echo "${name}" >/var/run/defuser
-exec su - ${name}
+exec su - "${name}"
