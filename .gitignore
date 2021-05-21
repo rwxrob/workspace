@@ -1,4 +1,1 @@
-go
 goroot
-!go/bin
-!goroot/bin

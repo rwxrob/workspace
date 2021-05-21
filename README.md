@@ -32,3 +32,19 @@ Note for any `docker` work you probably want to `-v
 /var/run/docker.sock:/var/run/docker.sock`, which will share the docker
 instance running on the host.
 
+## Installing Outside of Workspace
+
+Some of the scripts and content in this repo can be used to install
+stuff outside of a workspace (on a host system).
+
+To install latest Go binary (after having done `build go`):
+
+```sh
+ln -sf "$PWD/goroot" /usr/local/go
+```
+
+To add the Go utilities you might want to copy them to `/usr/local/bin`:
+
+```sh
+cp ./go/bin/* /usr/local/bin
+```
