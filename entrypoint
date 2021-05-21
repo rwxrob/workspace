@@ -115,14 +115,22 @@ if ! type "${shell_name}" >/dev/null; then
   apt install -y "${shell_name}"
 fi
 
-groupadd -g "${groupid}" "${group}"
 test -d "/home/${name}" || mkdir "/home/${name}"
-rsync -vaz /usr/share/rwxrob/workspace/ "/home/${name}"
+if test ! -e "/home/${name}/.config/ws/synced"; then
+  rsync -qvaz /usr/share/rwxrob/workspace/ "/home/${name}"
+  touch "/home/${name}/.config/ws/synced"
+fi
+
+groupadd -g "${groupid}" "${group}"
 useradd -s "${shell}" -d "${home}" -u "${userid}" -g "${groupid}" "${name}"
 echo "${group} ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers
 chown -R "${name}:${group}" "${home}"
 
 # -------------------- cache build and exec shell --------------------
+
+# There are two states for a workspace container that has already been
+# created: 1) from the ws command as a mounted workspace 2) just being
+# reopened but was just a regular docker run.
 
 touch /var/run/been_built
 echo "${name}" >/var/run/defuser

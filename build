@@ -1,5 +1,44 @@
 #!/bin/sh
 set -e
-git submodule update --recursive --remote
-test ! -d ./go && ./get-go-stuff
-docker build -t workspace -t rwxrob/workspace -t docker.io/rwxrob/workspace .
+
+case "$1" in
+mod*|sub*)
+  echo "Updating submodules."
+  git submodule update --recursive --remote
+  ;;
+go)
+  echo "Getting the latest go binaries."
+  curl -sSLO https://get.golang.org/$(uname)/go_installer
+  chmod +x go_installer
+  test -e ~/.bash_profile && mv ~/.bash_profile ~/.bash_profile.orig
+  test -d ~/.go && mv ~/.go ~/.go.orig
+  touch ~/.bash_profile     # installer fucks with .bash_profile
+  ./go_installer >/dev/null # shut the fuck up you piece of shit
+  rm ./go_installer
+  test -d ~/.go -a -d ./goroot && rm -rf ./goroot
+  mv ~/.go goroot && chmod -R +rw goroot # 'cuz go has braindead dir perms
+  test -e ~/.bash_profile.orig && mv ~/.bash_profile.orig ~/.bash_profile
+  test -d ~/.go.orig && mv ~/.go.orig ~/.go
+  ./goroot/bin/go version
+  ;;
+goutils)
+  echo "Installing go programs and utilities."
+  ./install-goutils
+  ;;
+image)
+  echo "Creating the container image."
+  docker build -t workspace -t rwxrob/workspace .
+  ;;
+push)
+  echo "Pushing the container image to Docker."
+  docker push rwxrob/workspace
+  ;;
+all)
+  $0 sub
+  $0 go
+  $0 goutils
+  $0 image
+  $0 push
+  ;;
+*) $0 image ;;
+esac

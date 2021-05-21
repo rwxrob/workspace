@@ -4,3 +4,66 @@
 [submodule "fonts"]
 	path = fonts
 	url = git@github.com:rwxrob/fonts.git
+[submodule "vim-shfmt"]
+	path = vim-shfmt
+	url = git@github.com:z0mbix/vim-shfmt.git
+[submodule "vim-polyglot"]
+	path = vim-polyglot
+	url = git@github.com:sheerun/vim-polyglot.git
+[submodule "vim-pandoc"]
+	path = vim-pandoc
+	url = git@github.com:vim-pandoc/vim-pandoc.git
+[submodule "vim-pandoc-syntax-simple"]
+	path = vim-pandoc-syntax-simple
+	url = git@github.com:rwxrob/vim-pandoc-syntax-simple.git
+[submodule "vim-toml"]
+	path = vim-toml
+	url = git@github.com:cespare/vim-toml.git
+[submodule "vim-javascript"]
+	path = vim-javascript
+	url = git@github.com:pangloss/vim-javascript.git
+[submodule "vim-ps1"]
+	path = vim-ps1
+	url = git@github.com:PProvost/vim-ps1.git
+[submodule "vim-fugitive"]
+	path = vim-fugitive
+	url = git@github.com:tpope/vim-fugitive.git
+[submodule "gruvbox"]
+	path = gruvbox
+	url = git@github.com:morhetz/gruvbox.git
+[submodule "vim-tmux-clipboard"]
+	path = vim-tmux-clipboard
+	url = git@github.com:roxma/vim-tmux-clipboard.git
+[submodule "vim/plugins/vim-shfmt"]
+	path = vim/plugins/vim-shfmt
+	url = git@github.com:z0mbix/vim-shfmt.git
+[submodule "vim/plugins/vim-polyglot"]
+	path = vim/plugins/vim-polyglot
+	url = git@github.com:sheerun/vim-polyglot.git
+[submodule "vim/plugins/vim-pandoc"]
+	path = vim/plugins/vim-pandoc
+	url = git@github.com:vim-pandoc/vim-pandoc.git
+[submodule "vim/plugins/vim-pandoc-syntax-simple"]
+	path = vim/plugins/vim-pandoc-syntax-simple
+	url = git@github.com:rwxrob/vim-pandoc-syntax-simple.git
+[submodule "vim/plugins/vim-toml"]
+	path = vim/plugins/vim-toml
+	url = git@github.com:cespare/vim-toml.git
+[submodule "vim/plugins/vim-javascript"]
+	path = vim/plugins/vim-javascript
+	url = git@github.com:pangloss/vim-javascript.git
+[submodule "vim/plugins/vim-go"]
+	path = vim/plugins/vim-go
+	url = git@github.com:fatih/vim-go.git
+[submodule "vim/plugins/vim-ps1"]
+	path = vim/plugins/vim-ps1
+	url = git@github.com:PProvost/vim-ps1.git
+[submodule "vim/plugins/vim-fugitive"]
+	path = vim/plugins/vim-fugitive
+	url = git@github.com:tpope/vim-fugitive.git
+[submodule "vim/plugins/gruvbox"]
+	path = vim/plugins/gruvbox
+	url = git@github.com:morhetz/gruvbox.git
+[submodule "vim/plugins/vim-tmux-clipboard"]
+	path = vim/plugins/vim-tmux-clipboard
+	url = git@github.com:roxma/vim-tmux-clipboard.git

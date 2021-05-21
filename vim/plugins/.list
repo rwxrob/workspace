@@ -1,0 +1,11 @@
+z0mbix/vim-shfmt
+sheerun/vim-polyglot
+vim-pandoc/vim-pandoc
+rwxrob/vim-pandoc-syntax-simple
+cespare/vim-toml
+pangloss/vim-javascript
+fatih/vim-go
+PProvost/vim-ps1
+tpope/vim-fugitive
+morhetz/gruvbox
+roxma/vim-tmux-clipboard

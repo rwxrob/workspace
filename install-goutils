@@ -1,0 +1,52 @@
+#!/bin/bash
+set -e
+
+# assumes go 1.16+ has already been installed
+# and that GOBIN has been set elsewhere (if wanted)
+
+test -d ./go && chmod -R +w ./go && rm -rf ./go
+mkdir go
+
+export GOROOT="$PWD/goroot"
+export GOPATH="$PWD/go"
+export GOBIN="$PWD/go/bin"
+export GOPROXY="https://proxy.golang.org,direct"
+export PATH="$GOROOT/bin:$PATH"
+
+echo '#######################################################'
+go version
+go env
+
+# fucked up from author using replace wrong
+# github.com/wagoodman/dive@latest
+
+declare -a packages=(
+  github.com/mikefarah/yq/v4@latest
+  sigs.k8s.io/kind@latest
+  github.com/rwxrob/lolcat@latest
+  github.com/klauspost/asmfmt/cmd/asmfmt@master
+  github.com/go-delve/delve/cmd/dlv@master
+  github.com/kisielk/errcheck@master
+  github.com/davidrjenni/reftools/cmd/fillstruct@master
+  github.com/rogpeppe/godef@master
+  golang.org/x/tools/cmd/goimports@master
+  golang.org/x/lint/golint@master
+  golang.org/x/tools/gopls@latest
+  github.com/golangci/golangci-lint/cmd/golangci-lint@master
+  github.com/fatih/gomodifytags@master
+  golang.org/x/tools/cmd/gorename@master
+  github.com/jstemmer/gotags@master
+  golang.org/x/tools/cmd/guru@master
+  github.com/josharian/impl@master
+  github.com/fatih/motion@master
+  github.com/koron/iferr@master
+  github.com/raviqqe/muffet@latest
+  github.com/rwxrob/cmdbox-pomo/pomo@latest
+  honnef.co/go/tools/cmd/staticcheck@latest
+  honnef.co/go/tools/cmd/keyify@master)
+
+for i in ${packages[@]}; do
+  echo '#######################################################'
+  echo Installing: $i into $GOBIN
+  go get -d $i && go install $i
+done
