@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-cmds="sub go utils image push all"
+cmds="help sub go utils image push all"
 if test -n "$COMP_LINE"; then
   pre="${COMP_LINE##* }"
   for c in ${cmds}; do
@@ -11,10 +11,21 @@ if test -n "$COMP_LINE"; then
 fi
 
 case "$1" in
+
+h*|usage)
+  echo "sub   - update git submodules"
+  echo "go    - pull the latest stable go"
+  echo "utils - go install the utils from list"
+  echo "image - docker build the image"
+  echo "push  - docker push the image"
+  echo "all   - sub, go, utils, image, push"
+  ;;
+
 sub)
   echo "Updating submodules."
   git submodule update --recursive --remote
   ;;
+
 go)
   echo "Getting the latest go binaries."
   curl -sSLO https://get.golang.org/$(uname)/go_installer
@@ -30,18 +41,22 @@ go)
   test -d ~/.go.orig && mv ~/.go.orig ~/.go
   ./goroot/bin/go version
   ;;
+
 utils)
   echo "Installing go programs and utilities."
   ./install-goutils
   ;;
+
 image)
   echo "Creating the container image."
   docker build -t workspace -t rwxrob/workspace .
   ;;
+ 
 push)
   echo "Pushing the container image to Docker."
   docker push rwxrob/workspace
   ;;
+
 all)
   $0 sub
   $0 go
@@ -49,6 +64,8 @@ all)
   $0 image
   $0 push
   ;;
+
 *) $0 image ;;
+
 esac
 
