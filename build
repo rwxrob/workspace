@@ -1,8 +1,17 @@
 #!/bin/sh
 set -e
 
+cmds="sub go utils image push all"
+if test -n "$COMP_LINE"; then
+  pre="${COMP_LINE##* }"
+  for c in ${cmds}; do
+    test -z "${pre}" -o "${c}" != "${c#${pre}}" && echo "$c"
+  done
+  exit
+fi
+
 case "$1" in
-mod*|sub*)
+sub)
   echo "Updating submodules."
   git submodule update --recursive --remote
   ;;
@@ -21,7 +30,7 @@ go)
   test -d ~/.go.orig && mv ~/.go.orig ~/.go
   ./goroot/bin/go version
   ;;
-goutils)
+utils)
   echo "Installing go programs and utilities."
   ./install-goutils
   ;;
@@ -42,3 +51,4 @@ all)
   ;;
 *) $0 image ;;
 esac
+
