@@ -26,7 +26,7 @@ RUN apt update -y
 RUN apt install -y vim tmux dialog perl python git gh jq sudo lynx \
     shellcheck nodejs npm figlet sl tree nmap ed bc \
     iputils-ping bind9-dnsutils htop libcurses-perl ssh rsync \
-    cifs-utils
+    cifs-utils bash-completion
 RUN cpan -I Term::Animation
 
 COPY goroot /usr/local/go
