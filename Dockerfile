@@ -40,7 +40,8 @@ COPY ./install-docker ./.local/bin/
 RUN .local/bin/install-docker
 COPY ./vim/autoload/plug.vim ./.vim/autoload/
 COPY ./vim/plugins ./.vimplugins
-COPY ./dot/lynx/ ./dot/gh/ ./.config/
+COPY ./dot/lynx  ./.config/lynx
+COPY ./dot/gh ./.config/gh
 COPY \
     ./dot/.bashrc \
     ./dot/.dircolors \
