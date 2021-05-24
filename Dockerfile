@@ -26,7 +26,7 @@ RUN yes | unminimize && \
         vim tmux dialog perl python git gh jq sudo lynx shellcheck \
         figlet sl tree nmap ed bc iputils-ping bind9-dnsutils htop \
         libcurses-perl ssh rsync cifs-utils smbclient bash-completion \
-        sshfs make \
+        sshfs sshpass make \
         && \
     cpan -I Term::Animation && \
     apt-get clean && \
@@ -34,11 +34,13 @@ RUN yes | unminimize && \
     cat /dev/null > /var/log/dmesg
 
 COPY ./files/. ./Dockerfile /
-RUN cpan -I Term::Animation
 
 WORKDIR /usr/share/rwxrob/workspace 
 
 RUN /usr/share/workspace/.local/bin/install-docker && \
-    /usr/share/workspace/.local/bin/install-helm
+    /usr/share/workspace/.local/bin/install-helm && \
+    /usr/share/workspace/.local/bin/install-kubectl && \
+    /usr/share/workspace/.local/bin/install-pandoc && \
+    /usr/share/workspace/.local/bin/install-hyperfine
 
 ENTRYPOINT ["sh","/entrypoint"]

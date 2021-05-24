@@ -124,7 +124,7 @@ fi
 
 groupadd -g "${groupid}" "${group}"
 useradd -s "${shell}" -d "${home}" -u "${userid}" -g "${groupid}" "${name}"
-echo "${group} ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers
+echo "${name} ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers
 chown -R "${name}:${group}" "${home}"
 
 # -------------------- cache build and exec shell --------------------

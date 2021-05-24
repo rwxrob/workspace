@@ -126,8 +126,6 @@ goutils)
   chmod -R +w ./go && rm -rf ./go
   ;;
 
-#TODO pull from the other docker images (pandoc, hyperfine, kubectl)
-
 image)
   echo "Creating the container image."
   docker build -t workspace -t rwxrob/workspace .
