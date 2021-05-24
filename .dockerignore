@@ -1,5 +1,3 @@
-build
-build-go
-fonts
-go/pkg
-!fonts/figlet
+*
+!files
+!Dockerfile

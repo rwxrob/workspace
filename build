@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-cmds="help sub go utils image push all"
+cmds="help sub go goutils image push all"
 if test -n "$COMP_LINE"; then
   pre="${COMP_LINE##* }"
   for c in ${cmds}; do
@@ -9,6 +9,8 @@ if test -n "$COMP_LINE"; then
   done
   exit
 fi
+
+ws=files/usr/share/workspace
 
 case "$1" in
 
@@ -24,6 +26,20 @@ h*|usage)
 sub)
   echo "Updating submodules."
   git submodule update --recursive --remote
+  rm -rf "$ws/.config/lynx"
+  cp -r dot/lynx "$ws/.config/lynx"
+  rm -rf "$ws/.config/gh"
+  cp -r dot/gh "$ws/.config/gh"
+  rm -rf files/usr/share/figlet
+  cp -r fonts/figlet files/usr/share/figlet
+  rm -rf "$ws/.git-templates"
+  cp -r dot/git/.git-templates "$ws/.git-templates"
+  rm -rf "$ws/.local/bin/scripts"
+  cp -r dot/scripts "$ws/.local/bin/scripts"
+  cp dot/.bashrc dot/.dircolors dot/.inputrc dot/.profile "$ws/"
+  cp dot/vim/.vimrc "$ws/"
+  cp dot/tmux/.tmux.conf "$ws/"
+  cp dot/tmux/.tmux-live.conf "$ws/"
   ;;
 
 go)
@@ -35,17 +51,69 @@ go)
   touch ~/.bash_profile     # installer fucks with .bash_profile
   ./go_installer >/dev/null # shut the fuck up you piece of shit
   rm ./go_installer
-  test -d ~/.go -a -d ./goroot && rm -rf ./goroot
-  mv ~/.go goroot && chmod -R +rw goroot # 'cuz go has braindead dir perms
+  test -d ~/.go -a -d ./files/usr/local/go && rm -rf ./files/usr/local/go
+  mv ~/.go ./files/usr/local/go && chmod -R +rw ./files/usr/local/go 
   test -e ~/.bash_profile.orig && mv ~/.bash_profile.orig ~/.bash_profile
   test -d ~/.go.orig && mv ~/.go.orig ~/.go
-  ./goroot/bin/go version
+  ./files/usr/local/go/bin/go version
   ;;
 
-utils)
+goutils)
   echo "Installing go programs and utilities."
-  ./install-goutils
+  set -e
+
+  # assumes go 1.16+ has already been installed
+  test -d ./go && chmod -R +w ./go && rm -rf ./go
+  mkdir -p "$PWD/files/usr/local/bin"
+
+  export GOROOT="$PWD/files/usr/local/go"
+  export GOPATH="$PWD/go"
+  export GOBIN="$PWD/files/usr/local/bin"
+  export GOPROXY="https://proxy.golang.org,direct"
+  export PATH="$GOROOT/bin:$PATH"
+
+  echo '#######################################################'
+  go version
+  go env
+
+  # fucked up from author using replace wrong
+  # github.com/wagoodman/dive@latest
+
+  declare -a packages=(
+    github.com/mikefarah/yq/v4@latest
+    sigs.k8s.io/kind@latest
+    github.com/rwxrob/lolcat@latest
+    github.com/klauspost/asmfmt/cmd/asmfmt@master
+    github.com/go-delve/delve/cmd/dlv@master
+    github.com/kisielk/errcheck@master
+    github.com/davidrjenni/reftools/cmd/fillstruct@master
+    github.com/rogpeppe/godef@master
+    golang.org/x/tools/cmd/goimports@master
+    golang.org/x/lint/golint@master
+    golang.org/x/tools/gopls@latest
+    github.com/golangci/golangci-lint/cmd/golangci-lint@master
+    github.com/fatih/gomodifytags@master
+    golang.org/x/tools/cmd/gorename@master
+    github.com/jstemmer/gotags@master
+    golang.org/x/tools/cmd/guru@master
+    github.com/josharian/impl@master
+    github.com/fatih/motion@master
+    github.com/koron/iferr@master
+    github.com/raviqqe/muffet@latest
+    github.com/rwxrob/cmdbox-pomo/pomo@latest
+    honnef.co/go/tools/cmd/staticcheck@latest
+    honnef.co/go/tools/cmd/keyify@master)
+
+  for i in ${packages[@]}; do
+    echo '#######################################################'
+    echo Installing: $i into $GOBIN
+    go get -d $i && go install $i
+  done
+
+  chmod -R +w ./go && rm -rf ./go
   ;;
+
+#TODO pull from the other docker images (pandoc, hyperfine, kubectl)
 
 image)
   echo "Creating the container image."
