@@ -25,6 +25,19 @@ h*|usage)
 
 sub)
   echo "Updating submodules."
+  #cd files/usr/share/workspace/.vimplugins
+  #git submodule add  git@github.com:z0mbix/vim-shfmt.git
+  #git submodule add  git@github.com:sheerun/vim-polyglot.git
+  #git submodule add  git@github.com:vim-pandoc/vim-pandoc.git
+  #git submodule add  git@github.com:rwxrob/vim-pandoc-syntax-simple.git
+  #git submodule add  git@github.com:cespare/vim-toml.git
+  #git submodule add  git@github.com:pangloss/vim-javascript.git
+  #git submodule add  git@github.com:fatih/vim-go.git
+  #git submodule add  git@github.com:PProvost/vim-ps1.git
+  #git submodule add  git@github.com:tpope/vim-fugitive.git
+  #git submodule add  git@github.com:morhetz/gruvbox.git
+  #git submodule add  git@github.com:roxma/vim-tmux-clipboard.git
+  #cd -
   git submodule update --recursive --remote
   rm -rf "$ws/.config/lynx"
   cp -r dot/lynx "$ws/.config/lynx"
@@ -136,4 +149,17 @@ all)
 *) $0 image ;;
 
 esac
+
+#  gruvbox
+#  vim-fugitive
+#  vim-go
+#  vim-javascript
+#  vim-pandoc
+#  vim-pandoc-syntax-simple
+#  vim-polyglot
+#  vim-ps1
+#  vim-shfmt
+#  vim-tmux-clipboard
+#  vim-toml
+
 
