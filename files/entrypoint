@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
-set -x
 
 red="\e[31m"
 x="\e[0m"
