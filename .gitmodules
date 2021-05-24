@@ -1,6 +1,3 @@
-[submodule "dot"]
-	path = dot
-	url = git@github.com:rwxrob/dot.git
 [submodule "fonts"]
 	path = fonts
 	url = git@github.com:rwxrob/fonts.git
@@ -35,35 +32,35 @@
 	path = vim-tmux-clipboard
 	url = git@github.com:roxma/vim-tmux-clipboard.git
 [submodule "vim/plugins/vim-shfmt"]
-	path = vim/plugins/vim-shfmt
+	path = files/var/share/workspace/.vimplugins/vim-shfmt
 	url = git@github.com:z0mbix/vim-shfmt.git
 [submodule "vim/plugins/vim-polyglot"]
-	path = vim/plugins/vim-polyglot
+	path = files/var/share/workspace/.vimplugins/vim-polyglot
 	url = git@github.com:sheerun/vim-polyglot.git
 [submodule "vim/plugins/vim-pandoc"]
-	path = vim/plugins/vim-pandoc
+	path = files/var/share/workspace/.vimplugins/vim-pandoc
 	url = git@github.com:vim-pandoc/vim-pandoc.git
 [submodule "vim/plugins/vim-pandoc-syntax-simple"]
-	path = vim/plugins/vim-pandoc-syntax-simple
+	path = files/var/share/workspace/.vimplugins/vim-pandoc-syntax-simple
 	url = git@github.com:rwxrob/vim-pandoc-syntax-simple.git
 [submodule "vim/plugins/vim-toml"]
-	path = vim/plugins/vim-toml
+	path = files/var/share/workspace/.vimplugins/vim-toml
 	url = git@github.com:cespare/vim-toml.git
 [submodule "vim/plugins/vim-javascript"]
-	path = vim/plugins/vim-javascript
+	path = files/var/share/workspace/.vimplugins/vim-javascript
 	url = git@github.com:pangloss/vim-javascript.git
 [submodule "vim/plugins/vim-go"]
-	path = vim/plugins/vim-go
+	path = files/var/share/workspace/.vimplugins/vim-go
 	url = git@github.com:fatih/vim-go.git
 [submodule "vim/plugins/vim-ps1"]
-	path = vim/plugins/vim-ps1
+	path = files/var/share/workspace/.vimplugins/vim-ps1
 	url = git@github.com:PProvost/vim-ps1.git
 [submodule "vim/plugins/vim-fugitive"]
-	path = vim/plugins/vim-fugitive
+	path = files/var/share/workspace/.vimplugins/vim-fugitive
 	url = git@github.com:tpope/vim-fugitive.git
 [submodule "vim/plugins/gruvbox"]
-	path = vim/plugins/gruvbox
+	path = files/var/share/workspace/.vimplugins/gruvbox
 	url = git@github.com:morhetz/gruvbox.git
 [submodule "vim/plugins/vim-tmux-clipboard"]
-	path = vim/plugins/vim-tmux-clipboard
+	path = files/var/share/workspace/.vimplugins/vim-tmux-clipboard
 	url = git@github.com:roxma/vim-tmux-clipboard.git
