@@ -23,7 +23,7 @@ h*|usage)
   echo "all   - sub, go, utils, image, push"
   ;;
 
-sub)
+sub*)
   echo "Updating submodules."
   #cd files/usr/share/workspace/.vimplugins
   #git submodule add  git@github.com:z0mbix/vim-shfmt.git
@@ -49,6 +49,7 @@ sub)
   cp -r dot/git/.git-templates "$ws/.git-templates"
   rm -rf "$ws/.local/bin/scripts"
   cp -r dot/scripts "$ws/.local/bin/scripts"
+  cp dot/bin/linux/x86_64/tmatrix "$ws/.local/bin"
   cp dot/.bashrc dot/.dircolors dot/.inputrc dot/.profile "$ws/"
   cp dot/vim/.vimrc "$ws/"
   cp dot/tmux/.tmux.conf "$ws/"
