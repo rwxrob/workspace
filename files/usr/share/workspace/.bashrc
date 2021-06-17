@@ -1,6 +1,4 @@
 
-test -e /etc/bashrc && source /etc/bashrc
-
 case $- in
 *i*) ;; # interactive
 *) return ;; 
@@ -23,6 +21,14 @@ export PYTHONDONTWRITEBYTECODE=1
 
 test -d ~/.vim/spell && export VIMSPELL=(~/.vim/spell/*.add)
 
+export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
+export GOPATH=~/.local/share/go
+export GOBIN=~/.local/bin
+export GOPROXY=direct
+export CGO_ENABLED=0
+
+# ------------------------------- pager ------------------------------
+
 if test -x /usr/bin/lesspipe; then
   export LESSOPEN="| /usr/bin/lesspipe %s";
   export LESSCLOSE="/usr/bin/lesspipe %s %s";
@@ -36,11 +42,15 @@ export LESS_TERMCAP_so="[34m" # blue
 export LESS_TERMCAP_ue="" # "0m"
 export LESS_TERMCAP_us="[4m"  # underline
 
-export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
-export GOPATH=~/.local/share/go
-export GOBIN=~/.local/bin
-export GOPROXY=direct
-export CGO_ENABLED=0
+# ----------------------------- dircolors ----------------------------
+
+if command -v dircolors &>/dev/null; then
+  if test -r ~/.dircolors; then
+    eval "$(dircolors -b ~/.dircolors)"
+  else
+    eval "$(dircolors -b)"
+  fi
+fi
 
 # ------------------------------- path -------------------------------
 
@@ -199,19 +209,9 @@ PROMPT_COMMAND="__ps1"
 
 test -n "$DISPLAY" && setxkbmap -option caps:escape &>/dev/null
 
-# ----------------------------- dircolors ----------------------------
-
-if which dircolors &>/dev/null; then
-  if test -r ~/.dircolors; then
-    eval "$(dircolors -b ~/.dircolors)"
-  else
-    eval "$(dircolors -b)"
-  fi
-fi
-
 # ------------- source external dependencies / completion ------------
 
-owncomp=(pdf md yt gl kn auth pomo config sshkey ws ./build build ./setup)
+owncomp=(pdf md yt gl kn auth pomo config sshkey ws ./build build b ./setup)
 for i in ${owncomp[@]}; do complete -C $i $i; done
 
 type gh &>/dev/null && . <(gh completion -s bash)
@@ -245,13 +245,17 @@ alias chmox='chmod +x'
 alias sshh='sshpass -f $HOME/.sshpass ssh '
 alias temp='cd $(mktemp -d)'
 alias view='vi -R' # which is usually linked to vim
+alias c='printf "\e[H\e[2J"'
+alias clear='printf "\e[H\e[2J"'
 
 which vim &>/dev/null && alias vi=vim
 
 # ----------------------------- functions ----------------------------
 
-clear() { printf "\e[H\e[2J"; } && export -f clear
-c() { printf "\e[H\e[2J"; } && export -f c
+build() { ./build "$@"; } && export -f build
+b() { build "$@"; } && export -f b
+d() { docker "$@"; } && export -f d
+k() { kubectl "$@"; } && export -f k
 
 envx() {
   local envfile="$1"

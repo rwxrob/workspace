@@ -114,14 +114,18 @@ goutils)
     github.com/fatih/motion@master
     github.com/koron/iferr@master
     github.com/raviqqe/muffet@latest
+    github.com/schollz/browsersync@latest
     github.com/rwxrob/cmdbox-pomo/pomo@latest
+    github.com/rwxrob/cmdbox-config/config@latest
+    github.com/rwxrob/auth-go/cmd/auth@latest
     honnef.co/go/tools/cmd/staticcheck@latest
-    honnef.co/go/tools/cmd/keyify@master)
+    honnef.co/go/tools/cmd/keyify@master
+  )
 
   for i in ${packages[@]}; do
     echo '#######################################################'
     echo Installing: $i into $GOBIN
-    go get -d $i && go install $i
+    go install $i
   done
 
   chmod -R +w ./go && rm -rf ./go
