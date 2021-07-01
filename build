@@ -50,6 +50,7 @@ sub*)
   rm -rf "$ws/.local/bin/scripts"
   cp -r dot/scripts "$ws/.local/bin/scripts"
   cp dot/bin/linux/x86_64/tmatrix "$ws/.local/bin"
+  cp dot/install/install* "$ws/.local/bin"
   cp dot/.bashrc dot/.dircolors dot/.inputrc dot/.profile "$ws/"
   cp dot/vim/.vimrc "$ws/"
   cp dot/tmux/.tmux.conf "$ws/"

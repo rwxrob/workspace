@@ -9,6 +9,7 @@ esac
 
 export GITUSER="$USER"
 export DOTFILES="$HOME/repos/github.com/$GITUSER/dot"
+export SNIPPETS="$HOME/repos/github.com/$GITUSER/dot/snippets"
 export GHREPOS="$HOME/repos/github.com/$GITUSER/"
 
 export TERM=xterm-256color
@@ -55,12 +56,13 @@ fi
 # ------------------------------- path -------------------------------
 
 pathappend() {
-  for ARG in "$@"; do
-    test -d "${ARG}" || continue
-    PATH=${PATH//:${ARG}:/:}
-    PATH=${PATH/#${ARG}:/}
-    PATH=${PATH/%:${ARG}/}
-    export PATH="${PATH:+"${PATH}:"}${ARG}"
+  declare arg
+  for arg in "$@"; do
+    test -d "${arg}" || continue
+    PATH=${PATH//:${arg}:/:}
+    PATH=${PATH/#${arg}:/}
+    PATH=${PATH/%:${arg}/}
+    export PATH="${PATH:+"${PATH}:"}${arg}"
   done
 }
 
@@ -102,6 +104,7 @@ pathappend \
 export CDPATH=.:\
 ~/repos/github.com:\
 ~/repos/github.com/$GITUSER:\
+~/repos/github.com/$GITUSER/dot:\
 ~/repos:\
 /media/$USER:\
 ~
@@ -238,6 +241,7 @@ alias mkdirisosec='d=$(isosec);mkdir $d; cd $d'
 alias main='cd $(work main)'
 alias dot='cd $DOTFILES'
 alias scripts='cd $SCRIPTS'
+alias snippets='cd $SNIPPETS'
 alias free='free -h'
 alias df='df -h'
 alias top=htop
