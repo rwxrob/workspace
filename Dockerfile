@@ -9,6 +9,7 @@ RUN yes | unminimize && \
     apt-get -y --no-install-recommends upgrade && \
     apt-get install -y \
         apt-utils \
+        build-essential \
         software-properties-common \
         apt-transport-https \
         ca-certificates \
@@ -25,8 +26,8 @@ RUN yes | unminimize && \
     apt-get install -y --no-install-recommends \
         vim tmux dialog perl python git gh jq sudo lynx shellcheck \
         figlet sl tree nmap ed bc iputils-ping bind9-dnsutils htop \
-        libncurses5 libcurses-perl ssh sshpass sshfs rsync cifs-utils \
-        smbclient bash-completion make wget less \
+        libncurses5 libcurses-perl net-tools ssh sshpass sshfs rsync \
+        cifs-utils smbclient bash-completion make wget less lolcat\
         && \
     cpan -I Term::Animation && \
     apt-get clean && \
@@ -43,4 +44,4 @@ RUN /usr/share/workspace/.local/bin/install-docker && \
     /usr/share/workspace/.local/bin/install-pandoc && \
     /usr/share/workspace/.local/bin/install-hyperfine
 
-ENTRYPOINT ["sh","/entrypoint"]
+ENTRYPOINT ["sh","/entry"]

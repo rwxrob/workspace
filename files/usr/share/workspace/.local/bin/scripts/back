@@ -13,7 +13,7 @@ fi
 echo "${clear}"
 while true; do
   echo "${top}"
-  figl <<<"back $what"
+  figl <<<"back $what" | lolcat
   setterm --cursor off
   sleep 2
 done

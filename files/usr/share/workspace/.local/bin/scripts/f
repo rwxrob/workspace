@@ -10,7 +10,7 @@ while true; do
   echo "${top}"
   stty -echo
   setterm --cursor off
-  echo -e "$@" | figl
+  echo -e "$@" | figl | lolcat
   setterm --cursor off
   sleep 2
 done

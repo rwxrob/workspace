@@ -39,15 +39,17 @@ sub*)
   #git submodule add  git@github.com:roxma/vim-tmux-clipboard.git
   #cd -
   git submodule update --recursive --remote
-  rm -rf "$ws/.config/lynx"
+  rm -rf "$ws/.local/share/docker/completion" || true
+  cp -r dot/docker/completion "$ws/.local/share/docker/completion"
+  rm -rf "$ws/.config/lynx" || true
   cp -r dot/lynx "$ws/.config/lynx"
-  rm -rf "$ws/.config/gh"
+  rm -rf "$ws/.config/gh" || true
   cp -r dot/gh "$ws/.config/gh"
-  rm -rf files/usr/share/figlet
+  rm -rf files/usr/share/figlet || true
   cp -r fonts/figlet files/usr/share/figlet
-  rm -rf "$ws/.git-templates"
+  rm -rf "$ws/.git-templates" || true
   cp -r dot/git/.git-templates "$ws/.git-templates"
-  rm -rf "$ws/.local/bin/scripts"
+  rm -rf "$ws/.local/bin/scripts" || true
   cp -r dot/scripts "$ws/.local/bin/scripts"
   cp dot/bin/linux/x86_64/tmatrix "$ws/.local/bin"
   cp dot/install/install* "$ws/.local/bin"
@@ -97,7 +99,6 @@ goutils)
   declare -a packages=(
     github.com/mikefarah/yq/v4@latest
     sigs.k8s.io/kind@latest
-    github.com/rwxrob/lolcat@latest
     github.com/klauspost/asmfmt/cmd/asmfmt@master
     github.com/go-delve/delve/cmd/dlv@master
     github.com/kisielk/errcheck@master
