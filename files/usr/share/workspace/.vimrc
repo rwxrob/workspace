@@ -191,23 +191,22 @@ set ruf=%30(%=%#LineNr#%.50F\ [%{strlen(&ft)?&ft:'none'}]\ %l:%c\ %p%%%)
 " only load plugins if Plug detected
 if filereadable(expand("~/.vim/autoload/plug.vim"))
 
-  call plug#begin('~/.vimplugins')
+  " github.com/junegunn/vim-plug
+
+  call plug#begin('~/.local/share/vim/plugins')
   Plug 'sheerun/vim-polyglot'
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'rwxrob/vim-pandoc-syntax-simple'
-  Plug 'cespare/vim-toml'
-  Plug 'pangloss/vim-javascript'
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-  Plug 'vim-go/vim-go'
-  Plug 'PProvost/vim-ps1'
+  "Plug 'pangloss/vim-javascript'
   Plug 'tpope/vim-fugitive'
   Plug 'morhetz/gruvbox'
-  "Plug 'frazrepo/vim-rainbow'
+  Plug 'frazrepo/vim-rainbow'
   call plug#end()
 
   " rainbox
-  " au FileType c,cpp,objc,objcpp call rainbow#load() " by type or ...
-  let g:rainbow_active = 1                            " globally
+   au FileType sh,bash,perl,go,c,python,javascript call rainbow#load()
+  "let g:rainbow_active = 1 
 
   " pandoc
   let g:pandoc#formatting#mode = 'h' " A'
